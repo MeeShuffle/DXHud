@@ -2,7 +2,67 @@
 
 
 
+hud={
+    s=Vector2(guiGetScreenSize()),
+    scale=function(x,y,w,h)
+        x=(x/1920)*hud.s["x"]
+        y=(y/1080)*hud.s["y"]
+        w=(w/1920)*hud.s["x"]
+        h=(h/1080)*hud.s["y"]
+        return x,y,w,h
+    end,
+    speed=function (theElement, unit)
+        local elementType = getElementType(theElement)
+        unit = unit == nil and 0 or ((not tonumber(unit)) and unit or tonumber(unit))
+        local mult = (unit == 0 or unit == "m/s") and 50 or ((unit == 1 or unit == "km/h") and 180 or 111.84681456)
+        return (Vector3(getElementVelocity(theElement)) * mult).length
+    end,
+    point=function (liczba)  
+        local format = liczba  
+        while true do      
+            format, k = string.gsub(format, "^(-?%d+)(%d%d%d)", '%1 %2')    
+            if ( k==0 ) then      
+                break  
+            end  
+        end  
+        return format
+    end,
+    heartbg=dxCreateTexture("images/heart_bg.png"),
+    heart=dxCreateTexture("images/heart.png"),
+    shieldbg=dxCreateTexture("images/shield_bg.png"),
+    shield=dxCreateTexture("images/shield.png"),
+    runbg=dxCreateTexture("images/run_bg.png"),
+    run=dxCreateTexture("images/run.png"),
+    oxygenbg=dxCreateTexture("images/oxygen_bg.png"),
+    oxygen=dxCreateTexture("images/oxygen.png"),
+    health=getElementHealth(localPlayer),
+    armor=getPedArmor(localPlayer),
+    money=getPlayerMoney(localPlayer),
+    breath=100,
+    elements={
+        "clock","ammo","armour","health","money","weapon","breath","wanted"
+    }
+}
+local pos={
+    ["bg"]={hud.scale(1437, 16, 483, 48)},
+    ["heart"]={hud.scale(1823, 48, 50, 45)},
+    ["shield"]={hud.scale(1732, 43, 50, 54)},
+    ["run"]={hud.scale(1642, 48, 50, 45)},
+    ["oxygen"]={hud.scale(1553, 48, 50, 45)},
+    ["line"]={hud.scale(1517, 113, 1920, 113)},
+    ["txt"]={hud.scale(1556, 135, 1872, 174)},
+    font=dxCreateFont("font.ttf",(25/1920)*hud.s["x"],false,"antialiased"),
+    font2=dxCreateFont("font.ttf",(30/1920)*hud.s["x"],false,"antialiased"),
+}
+for _,v in ipairs(hud["elements"])do
+    setPlayerHudComponentVisible(v,false)
+end
 
+addEventHandler("onClientResourceStop",resourceRoot,function()
+    for _,v in ipairs(hud["elements"])do
+        setPlayerHudComponentVisible(v,true)
+    end
+end)
 
 
 
@@ -108,71 +168,7 @@ hud.render=function()
         end
     end
 end
+addEventHandler("onClientRender",root,hud.render)
 
 
 
-
-addEventHandler("onClientResourceStart",resourceRoot,function()
-    hud={
-        s=Vector2(guiGetScreenSize()),
-        scale=function(x,y,w,h)
-            x=(x/1920)*hud.s["x"]
-            y=(y/1080)*hud.s["y"]
-            w=(w/1920)*hud.s["x"]
-            h=(h/1080)*hud.s["y"]
-            return x,y,w,h
-        end,
-        speed=function (theElement, unit)
-            local elementType = getElementType(theElement)
-            unit = unit == nil and 0 or ((not tonumber(unit)) and unit or tonumber(unit))
-            local mult = (unit == 0 or unit == "m/s") and 50 or ((unit == 1 or unit == "km/h") and 180 or 111.84681456)
-            return (Vector3(getElementVelocity(theElement)) * mult).length
-        end,
-        point=function (liczba)  
-            local format = liczba  
-            while true do      
-                format, k = string.gsub(format, "^(-?%d+)(%d%d%d)", '%1 %2')    
-                if ( k==0 ) then      
-                    break  
-                end  
-            end  
-            return format
-        end,
-        heartbg=dxCreateTexture("images/heart_bg.png"),
-        heart=dxCreateTexture("images/heart.png"),
-        shieldbg=dxCreateTexture("images/shield_bg.png"),
-        shield=dxCreateTexture("images/shield.png"),
-        runbg=dxCreateTexture("images/run_bg.png"),
-        run=dxCreateTexture("images/run.png"),
-        oxygenbg=dxCreateTexture("images/oxygen_bg.png"),
-        oxygen=dxCreateTexture("images/oxygen.png"),
-        health=getElementHealth(localPlayer),
-        armor=getPedArmor(localPlayer),
-        money=getPlayerMoney(localPlayer),
-        breath=100,
-        elements={
-            "clock","ammo","armour","health","money","weapon","breath","wanted"
-        }
-    }
-    local pos={
-        ["bg"]={hud.scale(1437, 16, 483, 48)},
-        ["heart"]={hud.scale(1823, 48, 50, 45)},
-        ["shield"]={hud.scale(1732, 43, 50, 54)},
-        ["run"]={hud.scale(1642, 48, 50, 45)},
-        ["oxygen"]={hud.scale(1553, 48, 50, 45)},
-        ["line"]={hud.scale(1517, 113, 1920, 113)},
-        ["txt"]={hud.scale(1556, 135, 1872, 174)},
-        font=dxCreateFont("font.ttf",(25/1920)*hud.s["x"],false,"antialiased"),
-        font2=dxCreateFont("font.ttf",(30/1920)*hud.s["x"],false,"antialiased"),
-    }
-    for _,v in ipairs(hud["elements"])do
-        setPlayerHudComponentVisible(v,false)
-    end
-    addEventHandler("onClientRender",root,hud.render)
-end)
-
-addEventHandler("onClientResourceStop",resourceRoot,function()
-    for _,v in ipairs(hud["elements"])do
-        setPlayerHudComponentVisible(v,true)
-    end
-end)
