@@ -1,0 +1,13 @@
+<meta>
+	<script src="main.lua" type="client" cache="false"/>
+	<script src="update.lua" type="server"/>
+	<file src="images/heart_bg.png"/>
+	<file src="images/heart.png"/>
+	<file src="images/shield_bg.png"/>
+	<file src="images/shield.png"/>
+	<file src="images/run_bg.png"/>
+	<file src="images/run.png"/>
+	<file src="images/oxygen_bg.png"/>
+	<file src="images/oxygen.png"/>
+	<file src="font.ttf"/>
+</meta>
