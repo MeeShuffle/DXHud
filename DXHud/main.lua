@@ -41,6 +41,48 @@ hud={
     breath=100,
     elements={
         "clock","ammo","armour","health","money","weapon","breath","wanted"
+    },
+    weapons={
+        [1]="Kastet",
+        [2]="Kij golfowy",
+        [3]="Pałka policyjna",
+        [4]="Nóż",
+        [5]="Kij bejsbolowy",
+        [6]="Łopata",
+        [7]="Kij bilardowy",
+        [8]="Piła mechaniczna",
+        [22]="Colt 45",
+        [23]="Pistolet z tłumikiem",
+        [24]="Deagle",
+        [25]="Strzelba",
+        [26]="Obrzyn",
+        [27]="Strzelba bojowa",
+        [28]="Uzi",
+        [29]="MP5",
+        [30]="AK-47",
+        [31]="M4",
+        [33]="Karabin wyborowy",
+        [34]="Karabin snajperski",
+        [35]="Wyrzutnia rakiet",
+        [36]="Naprowadzająca wyrzutnia rakiet",
+        [37]="Miotacz ognia",
+        [38]="Minigun",
+        [16]="Granat",
+        [17]="Gaz łzawiący",
+        [18]="Koktajl mołotowa",
+        [39]="Ładunek wybuchowy",
+        [41]="Spray",
+        [42]="Gaśnica",
+        [43]="Aparat",
+        [10]="Dildo",
+        [11]="Dildo",
+        [12]="Wibrator",
+        [14]="Kwiaty",
+        [15]="Laska",
+        [44]="Noktowizor",
+        [45]="Podczerwień",
+        [46]="Spadochron",
+        [40]="Zapalnik"
     }
 }
 local pos={
@@ -51,8 +93,13 @@ local pos={
     ["oxygen"]={hud.scale(1553, 48, 50, 45)},
     ["line"]={hud.scale(1517, 113, 1920, 113)},
     ["txt"]={hud.scale(1556, 135, 1872, 174)},
+    ["txt2"]={hud.scale(1556, 185, 1872, 224)},
+    ["ammo"]={hud.scale(1854, 197, 27, 40)},
+    ["txt2"]={hud.scale(1740, 198, 1866, 239)},
+    ["txt3"]={hud.scale(1560, 198, 1686, 239)},
     font=dxCreateFont("font.ttf",(25/1920)*hud.s["x"],false,"antialiased"),
     font2=dxCreateFont("font.ttf",(30/1920)*hud.s["x"],false,"antialiased"),
+    font3=dxCreateFont("font.ttf",(20/1920)*hud.s["x"],false,"antialiased"),
 }
 for _,v in ipairs(hud["elements"])do
     setPlayerHudComponentVisible(v,false)
@@ -67,7 +114,6 @@ end)
 
 
 hud.render=function()
-    --dxDrawRectangle(pos["bg"][1],pos["bg"][2],pos["bg"][3],pos["bg"][4], tocolor(0, 0, 0, 187), false)
 
     ---HEALTH
     
@@ -166,6 +212,17 @@ hud.render=function()
         if hud.breath <= 100 then 
             hud.breath = hud.breath + 0.03
         end
+    end
+    if getPedWeapon(localPlayer) and getPedWeapon(localPlayer) ~= 0 then
+        hud.clip=getPedAmmoInClip(localPlayer)
+        hud.ammo=getPedTotalAmmo(localPlayer)-hud.clip
+        --WEAPON
+        dxDrawImage(pos["ammo"][1],pos["ammo"][2],pos["ammo"][3],pos["ammo"][4], "images/ammo.png", 0, 0, 0, tocolor(255, 255, 255, 255), false)
+        dxDrawText(hud.clip.."/"..hud.ammo, pos["txt2"][1]+1,pos["txt2"][2]+1,pos["txt2"][3]+1,pos["txt2"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font3, "center", "center", false, false, false, false, false)
+        dxDrawText(hud.clip.."/"..hud.ammo, pos["txt2"][1],pos["txt2"][2],pos["txt2"][3],pos["txt2"][4], tocolor(255, 255, 255, 255), 1.00, pos.font3, "center", "center", false, false, false, false, false)
+        dxDrawImage(1714, 201, 36, 36, "images/weapon.png", 0, 0, 0, tocolor(255, 255, 255, 255), false)
+        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1]+1,pos["txt3"][2]+1,pos["txt3"][3]+1,pos["txt3"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font3, "right", "center", false, false, false, false, false)
+        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1],pos["txt3"][2],pos["txt3"][3],pos["txt3"][4], tocolor(255, 255, 255, 255), 1.00, pos.font3, "right", "center", false, false, false, false, false)
     end
 end
 addEventHandler("onClientRender",root,hud.render)
