@@ -99,7 +99,7 @@ function checkVersion()
                 local size=fileGetSize(file)
                 local content=fileRead(file,size)
                 if data~=content then
-                    print("Dostępna jest nowsza wersja DXHud by sirphatnasm ("..data.."). Obecna wersja ("..content..").")
+                    print("Dostępna jest nowsza wersja DXHud by sirphantasm#1234 ("..data.."). Obecna wersja ("..content..").")
                     print("Wpisz /updatehud aby pobrać aktualizację")
                 end
             end
