@@ -35,6 +35,8 @@ hud={
     run=dxCreateTexture("images/run.png"),
     oxygenbg=dxCreateTexture("images/oxygen_bg.png"),
     oxygen=dxCreateTexture("images/oxygen.png"),
+    bg=dxCreateTexture("images/line.png"),
+    bg2=dxCreateTexture("images/line2.png"),
     health=getElementHealth(localPlayer),
     armor=getPedArmor(localPlayer),
     money=getPlayerMoney(localPlayer),
@@ -50,7 +52,8 @@ hud={
         [5]="Kij bejsbolowy",
         [6]="Łopata",
         [7]="Kij bilardowy",
-        [8]="Piła mechaniczna",
+        [8]="Katana",
+        [9]="Piła mechaniczna",
         [22]="Colt 45",
         [23]="Pistolet z tłumikiem",
         [24]="Deagle",
@@ -85,21 +88,26 @@ hud={
         [40]="Zapalnik"
     }
 }
+
+
+
+
+
 local pos={
-    ["bg"]={hud.scale(1437, 16, 483, 48)},
-    ["heart"]={hud.scale(1823, 48, 50, 45)},
-    ["shield"]={hud.scale(1732, 43, 50, 54)},
-    ["run"]={hud.scale(1642, 48, 50, 45)},
-    ["oxygen"]={hud.scale(1553, 48, 50, 45)},
+    ["bg"]={hud.scale(0, 0, 1920, 1080)},
+    ["heart"]={hud.scale(1655, 16, 50, 45)},
+    ["shield"]={hud.scale(1684, 92, 50, 54)},
+    ["run"]={hud.scale(1749, 165, 50, 45)},
+    ["oxygen"]={hud.scale(1842, 214, 50, 45)},
     ["line"]={hud.scale(1517, 113, 1920, 113)},
-    ["txt"]={hud.scale(1556, 135, 1872, 174)},
-    ["txt2"]={hud.scale(1556, 185, 1872, 224)},
-    ["ammo"]={hud.scale(1854, 197, 27, 40)},
-    ["txt2"]={hud.scale(1740, 198, 1866, 239)},
-    ["txt3"]={hud.scale(1560, 198, 1686, 239)},
-    font=dxCreateFont("font.ttf",(25/1920)*hud.s["x"],false,"antialiased"),
-    font2=dxCreateFont("font.ttf",(30/1920)*hud.s["x"],false,"antialiased"),
-    font3=dxCreateFont("font.ttf",(20/1920)*hud.s["x"],false,"antialiased"),
+    ["txt"]={hud.scale(1741, 6, 1910, 35)},
+    ["txt2"]={hud.scale(1847, 118, 1906, 143)},
+    ["ammo"]={hud.scale(1819, 118, 17, 25)},
+    ["txt3"]={hud.scale(1807, 67, 1910, 87)},
+    ["weapon"]={hud.scale(1773, 64, 28, 28)},
+    font=dxCreateFont("font.ttf",(20/1920)*hud.s["x"],false,"antialiased"),
+    font2=dxCreateFont("font.ttf",(25/1920)*hud.s["x"],false,"antialiased"),
+    font3=dxCreateFont("font.ttf",(15/1920)*hud.s["x"],false,"antialiased"),
 }
 for _,v in ipairs(hud["elements"])do
     setPlayerHudComponentVisible(v,false)
@@ -114,7 +122,8 @@ end)
 
 
 hud.render=function()
-
+    dxDrawImage(pos["bg"][1],pos["bg"][2],pos["bg"][3],pos["bg"][4], hud.bg, 0, 0, 0, tocolor(255, 255, 255, 255), false)
+    dxDrawImage(pos["bg"][1],pos["bg"][2],pos["bg"][3],pos["bg"][4], hud.bg2, 0, 0, 0, tocolor(255, 255, 255, 255), false)
     ---HEALTH
     
     if math.ceil(getElementHealth(localPlayer))>math.ceil(hud.health) then
@@ -177,15 +186,15 @@ hud.render=function()
                 hud.money=hud.money+1
             end
         end
-        dxDrawText(hud.point(string.format('%08d', hud.money)).."  $", pos["txt"][1]+1,pos["txt"][2]+1,pos["txt"][3]+1,pos["txt"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font2, "right", "center", false, false, false, true, false)
-        dxDrawText(hud.point(string.format('%08d', hud.money)).."  #c102d3$", pos["txt"][1],pos["txt"][2],pos["txt"][3],pos["txt"][4], tocolor(255, 255, 255, 255), 1.00, pos.font2, "right", "center", false, false, false, true, false)
+        dxDrawText("$  "..hud.point(string.format('%08d', hud.money)), pos["txt"][1]+1,pos["txt"][2]+1,pos["txt"][3]+1,pos["txt"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font2, "center", "center", false, false, false, true, false)
+        dxDrawText("#009933$  #ffffff"..hud.point(string.format('%08d', hud.money)), pos["txt"][1],pos["txt"][2],pos["txt"][3],pos["txt"][4], tocolor(255, 255, 255, 255), 1.00, pos.font2, "center", "center", false, false, false, true, false)
     else
-        dxDrawText(hud.point(string.format('%08d', hud.money)).."  $", pos["txt"][1]+1,pos["txt"][2]+1,pos["txt"][3]+1,pos["txt"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font, "right", "center", false, false, false, true, false)
-        dxDrawText(hud.point(string.format('%08d', hud.money)).."  #c102d3$", pos["txt"][1],pos["txt"][2],pos["txt"][3],pos["txt"][4], tocolor(255, 255, 255, 255), 1.00, pos.font, "right", "center", false, false, false, true, false)
+        dxDrawText("$  "..hud.point(string.format('%08d', hud.money)), pos["txt"][1]+1,pos["txt"][2]+1,pos["txt"][3]+1,pos["txt"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font, "center", "center", false, false, false, true, false)
+        dxDrawText("#009933$  #ffffff"..hud.point(string.format('%08d', hud.money)), pos["txt"][1],pos["txt"][2],pos["txt"][3],pos["txt"][4], tocolor(255, 255, 255, 255), 1.00, pos.font, "center", "center", false, false, false, true, false)
     end
     
-    dxDrawLine(pos["line"][1]+1,pos["line"][2]+1,pos["line"][3]+1,pos["line"][4]+1, tocolor(0, 0, 0, 182), 2, false)
-    dxDrawLine(pos["line"][1],pos["line"][2],pos["line"][3],pos["line"][4], tocolor(193, 2, 211, 182), 2, false)
+
+    
     
 
 
@@ -220,9 +229,9 @@ hud.render=function()
         dxDrawImage(pos["ammo"][1],pos["ammo"][2],pos["ammo"][3],pos["ammo"][4], "images/ammo.png", 0, 0, 0, tocolor(255, 255, 255, 255), false)
         dxDrawText(hud.clip.."/"..hud.ammo, pos["txt2"][1]+1,pos["txt2"][2]+1,pos["txt2"][3]+1,pos["txt2"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font3, "center", "center", false, false, false, false, false)
         dxDrawText(hud.clip.."/"..hud.ammo, pos["txt2"][1],pos["txt2"][2],pos["txt2"][3],pos["txt2"][4], tocolor(255, 255, 255, 255), 1.00, pos.font3, "center", "center", false, false, false, false, false)
-        dxDrawImage(1714, 201, 36, 36, "images/weapon.png", 0, 0, 0, tocolor(255, 255, 255, 255), false)
-        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1]+1,pos["txt3"][2]+1,pos["txt3"][3]+1,pos["txt3"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font3, "right", "center", false, false, false, false, false)
-        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1],pos["txt3"][2],pos["txt3"][3],pos["txt3"][4], tocolor(255, 255, 255, 255), 1.00, pos.font3, "right", "center", false, false, false, false, false)
+        dxDrawImage(pos["weapon"][1],pos["weapon"][2],pos["weapon"][3],pos["weapon"][4], "images/weapon.png", 0, 0, 0, tocolor(255, 255, 255, 255), false)
+        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1]+1,pos["txt3"][2]+1,pos["txt3"][3]+1,pos["txt3"][4]+1, tocolor(0, 0, 0, 255), 1.00, pos.font3, "center", "center", false, true, false, false, false)
+        dxDrawText(hud.weapons[getPedWeapon(localPlayer)], pos["txt3"][1],pos["txt3"][2],pos["txt3"][3],pos["txt3"][4], tocolor(255, 255, 255, 255), 1.00, pos.font3, "center", "center", false, true, false, false, false)
     end
 end
 addEventHandler("onClientRender",root,hud.render)

@@ -11,6 +11,9 @@
 	<file src="images/oxygen.png"/>
 	<file src="images/ammo.png"/>
 	<file src="images/weapon.png"/>
+	<file src="images/user.png"/>
+	<file src="images/line.png"/>
+	<file src="images/line2.png"/>
 	<file src="font.ttf"/>
 	<file src="version.txt"/>
 </meta>
